@@ -1,6 +1,6 @@
 import { Redirect } from 'react-router-dom';
 import React, { Component } from 'react';
-import Loading from '../Component/Loading';
+import Loading from '../Components/Loading';
 import { createUser } from '../services/userAPI';
 
 class Login extends Component {
