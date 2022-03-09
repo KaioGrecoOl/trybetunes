@@ -8,7 +8,7 @@ class Header extends Component {
     super();
     this.state = {
       loading: false,
-      loginImput: '',
+      loginInput: '',
     };
     this.gettingUser = this.gettingUser.bind(this);
   }
@@ -22,18 +22,18 @@ class Header extends Component {
     const userInf = await getUser();
     // console.log(userInf);
     this.setState({ loading: false,
-      loginImput: userInf.name });
+      loginInput: userInf.name });
   }
 
   render() {
-    const { loginImput, loading } = this.state;
+    const { loginInput, loading } = this.state;
 
     return (
       <div>
         <header data-testid="header-component">
           {loading
             ? (<Loading />)
-            : (<h3 data-testid="header-user-name">{ loginImput }</h3>) }
+            : (<h3 data-testid="header-user-name">{ loginInput }</h3>) }
           <nav>
             <Link to="/search" data-testid="link-to-search"> Search </Link>
             <Link to="/favorites" data-testid="link-to-favorites"> Favorite Songs </Link>
