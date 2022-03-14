@@ -1,28 +1,59 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Header from '../Components/Header';
+import getMusics from '../services/musicsAPI';
+import MusicCard from '../Components/MusicCard';
+
+// import AlbumShow from '../Components/AlbumShow';
 
 class Album extends Component {
+  constructor() {
+    super();
+    this.state = {
+      album: [],
+      artisName: '',
+      albumName: '',
+    };
+  }
+
+  componentDidMount = () => {
+    this.callGetMusicsApi();
+  }
+
+  callGetMusicsApi = async () => {
+    const { match: { params: { id } } } = this.props;
+    const responseGetMusicsApi = await getMusics(id);
+    // console.log(responseGetMusicsApi);
+    this.setState({ album: responseGetMusicsApi,
+      artisName: responseGetMusicsApi[0].artistName,
+      albumName: responseGetMusicsApi[0].collectionName });
+  }
+
   render() {
-    const { id, collection, imag } = this.props;
+    const { album, artisName, albumName } = this.state;
+    console.log(album);
+    // console.log(this.props);
     return (
       <div data-testid="page-album">
         <Header />
-        <Link to={ `album/${id}` } data-testid={ `link-to-album-${id}` } />
-        <p>{ collection }</p>
+        <h2 data-testid="artist-name">{ artisName }</h2>
+        <h2 data-testid="album-name">{ albumName }</h2>
         <div>
-          <img alt={ collection } src={ imag } />
+          {album.length > 0 && album.filter((element) => element.trackId)
+            .map((track) => (
+              <MusicCard
+                key={ track.trackId }
+                musicList={ track }
+              />
+            ))}
         </div>
       </div>
     );
   }
 }
 
-export default Album;
-
 Album.propTypes = {
-  id: PropTypes.number,
-  collectionId: PropTypes.number,
-  collection: PropTypes.string,
-}.isRequired;
+  match: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};
+
+export default Album;
