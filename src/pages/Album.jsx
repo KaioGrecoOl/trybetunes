@@ -31,7 +31,6 @@ class Album extends Component {
 
   render() {
     const { album, artisName, albumName } = this.state;
-    console.log(album);
     // console.log(this.props);
     return (
       <div data-testid="page-album">
