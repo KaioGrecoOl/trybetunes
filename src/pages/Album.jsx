@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 import getMusics from '../services/musicsAPI';
 import MusicCard from '../Components/MusicCard';
-
-// import AlbumShow from '../Components/AlbumShow';
+// import { getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 class Album extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       album: [],
       artisName: '',
@@ -23,7 +22,7 @@ class Album extends Component {
   callGetMusicsApi = async () => {
     const { match: { params: { id } } } = this.props;
     const responseGetMusicsApi = await getMusics(id);
-    // console.log(responseGetMusicsApi);
+    console.log(responseGetMusicsApi);
     this.setState({ album: responseGetMusicsApi,
       artisName: responseGetMusicsApi[0].artistName,
       albumName: responseGetMusicsApi[0].collectionName });

@@ -1,18 +1,31 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 import Loading from './Loading';
 
 class MusicCard extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { loading: false,
+      saveFavoritSong: false,
+      favoritMusics: [],
     };
   }
 
-  // componentDidMount() {
-  //   this.callGetMusicsApi();
-  // }
+  componentDidMount = async () => {
+    const { musicList } = this.props;
+    this.setState({ loading: true });
+    const responseFavoriteSongApi = await getFavoriteSongs();
+    this.setState({ favoritMusics: responseFavoriteSongApi,
+      loading: false });
+    const { favoritMusics } = this.state;
+    // console.log(favoritMusics);
+    if (favoritMusics.some(
+      (element) => (element.trackId === musicList.trackId),
+    )) {
+      this.setState({ saveFavoritSong: true });
+    }
+  }
 
   saveFavoriteMusic = async ({ target }) => {
     const { musicList } = this.props;
@@ -21,18 +34,12 @@ class MusicCard extends Component {
       // console.log(target.checked);
       await addSong(musicList);
     }
-    this.setState({ loading: false });
+    this.setState({ loading: false, saveFavoritSong: true });
   }
-
-  // callGetMusicsApi = async () => {
-  //   const { musicList } = this.props;
-  //   const responseGetMusicsApiFavo = await addSong(musicList);
-  //   return responseGetMusicsApiFavo;
-  // }
 
   render() {
     const { musicList } = this.props;
-    const { loading } = this.state;
+    const { loading, saveFavoritSong } = this.state;
     // console.log('Music list: ', musicList);s
     return (
       <div>
@@ -49,6 +56,7 @@ class MusicCard extends Component {
             name="favoritMusics"
             data-testid={ `checkbox-music-${musicList.trackId}` }
             onChange={ this.saveFavoriteMusic }
+            checked={ saveFavoritSong }
           />
         </label>
         { loading && <Loading />}

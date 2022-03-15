@@ -4,8 +4,8 @@ import { getUser } from '../services/userAPI';
 import Loading from './Loading';
 
 class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       loading: false,
       loginInput: '',

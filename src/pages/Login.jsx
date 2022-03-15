@@ -4,8 +4,8 @@ import Loading from '../Components/Loading';
 import { createUser } from '../services/userAPI';
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isLoginButtonDisabled: true,
       loginInput: '',

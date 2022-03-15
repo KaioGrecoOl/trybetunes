@@ -5,8 +5,8 @@ import Loading from '../Components/Loading';
 import AlbumShow from '../Components/AlbumShow';
 
 class Search extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       artistInput: '',
       isSearchButtonDisabled: true,
